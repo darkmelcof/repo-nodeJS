@@ -1,4 +1,3 @@
-var myModule = require('./mymodule')
+var myModule = require('./mymodule');
 
-myModule.sayHello();
 
