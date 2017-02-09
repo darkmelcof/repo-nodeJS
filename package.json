@@ -1,8 +1,0 @@
-{
-    "name": "myAPP",
-    "version": "0.1.0",
-    "dependencies": {
-        "express": "~1.14.1",
-        "ejs": "~2.5.5"
-    }
-}
