@@ -9,8 +9,8 @@ app.get('/', function(req, res) {
 
 // Dynamic routing
 app.get('/floor/:num', function(req, res) {
-	// Get the template ejs in views folder
-	res.render('floor.ejs', {number: req.params.num});
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('You have reached the floor n°' + req.params.num);
 });
 
 // Last case at the end
