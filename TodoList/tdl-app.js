@@ -3,6 +3,7 @@ var session = require('cookie-session'); // Load middleware sessions
 var bodyParser = require('body-parser'); // Load middleware params manager
 var fileExport = require('./tdl-export');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var fs = require('fs'); // Load middlewareFileSystem 
 
 var app = express(); // express framework
 
@@ -24,12 +25,16 @@ app.use(session({secret: 'todotopsecret'}))
 
 .post('/todo/download/', urlencodedParser, function(req, res) { 
     if (typeof(req.session.todolist[0]) != 'undefined') {
-        fileExport.formatCSV(req.session.todolist, function(res){
-            console.log("fini");
+        fileExport.formatCSV(req.session.todolist, function(filePath){
+            res.download(filePath, 'data.zip', function(){
+               fs.unlink(filePath); // Remove the file
+            }); 
+
         });
-    } 
-    fileExport.hello();
-    res.redirect('/todo');
+    } else {
+        console.log('empty tasks');
+        res.redirect('/todo');
+    }
 }) 
 
 /* ADD element into todolist */

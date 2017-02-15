@@ -1,11 +1,8 @@
 var fs = require('fs'); // Load middlewareFileSystem 
-var csv_export=require('csv-export'); // Load middleware csv_export
-var express = require('express');
-
-var appp = express();
+var csv_export = require('csv-export'); // Load middleware csv_export
 
 /* Export JSON format documents into CSV zipped */
-var formatCSV = function(todoList) {
+var formatCSV = function(todoList, callback) {
 	var documents = [];
     todoList.forEach(function(todo, index){
         documents.push({todo});  
@@ -14,16 +11,10 @@ var formatCSV = function(todoList) {
 	csv_export.export(documents, function(buffer) {
 		// returns a buffer for the csv files already compressed into a single zip. 
 		// save the zip or force file download via express or other server 
-    	// TO CHANGE TO NO SYNC
-    	fs.writeFileSync('./data.zip', buffer);
-
+        var filePath = './data.zip'
+    	fs.writeFileSync(filePath, buffer);
+        callback(filePath);
     });	
 }
 
-function hello(){
-	console.log("hello");
-}
-
-function download()
 exports.formatCSV = formatCSV;
-exports.hello = hello;
